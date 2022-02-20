@@ -24,8 +24,23 @@ client.on('interactionCreate', async interaction => {
 
 async function toggleRole(interaction, roleName) {
     const role = await guild.roles.cache.find(role => role.name === roleName);
-    await interaction.member.roles.add(role, "Self-requested with Foo Bot");
-    await interaction.reply(`You have been given the ${roleName} role!`);
+    if (await hasRole(interaction.member, role)) {
+        interaction.member.roles.remove(role, "Self-requested with Foo Bot").then(async () => {
+            await interaction.reply(`You have removed the ${roleName} role.`);
+        }).catch(async () => {
+            await interaction.reply('An unexpected error has occurred!');
+        });
+    } else {
+        interaction.member.roles.add(role, "Self-requested with Foo Bot").then(async () => {
+            await interaction.reply(`You have been given the ${roleName} role!`);
+        }).catch(async () => {
+            await interaction.reply('An unexpected error has occurred!');
+        });
+    }
+}
+
+async function hasRole(member, role) {
+    return await member.roles.resolve(role.id) !== null;
 }
 
 client.login(TOKEN).then(() => console.log("Login successful!"));
