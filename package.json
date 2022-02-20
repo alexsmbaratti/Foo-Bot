@@ -1,0 +1,15 @@
+{
+  "name": "foo-bot",
+  "version": "1.0.0",
+  "description": "The official bot of The Foo Bar!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "alexsmbaratti",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^13.6.0"
+  }
+}
