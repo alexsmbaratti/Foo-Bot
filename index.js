@@ -6,7 +6,9 @@ const GUILD_ID = require('./config.json')['guildId'];
 var guild;
 
 client.once('ready', () => {
-    console.log('Bot is ready!');
+    console.log(`${client.user.username} is ready!\n`);
+    console.log('Invite your bot to your server with this link: ');
+    console.log(`https://discord.com/api/oauth2/authorize?client_id=${client.application.id}&permissions=8&scope=bot%20applications.commands`);
     guild = client.guilds.cache.get(GUILD_ID);
 });
 
