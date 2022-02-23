@@ -19,35 +19,39 @@ client.on('interactionCreate', async interaction => {
 
     const {commandName: command} = interaction;
 
-    if (command === 'dev') {
-        await toggleRole(interaction, "Developers");
+    if (command === 'role') {
+        const role = interaction.options.getString('role');
+        await toggleRole(interaction, role);
     }
 });
 
 client.on('guildMemberAdd', async member => {
-    if (member.user.bot) {
-        console.log("A bot has joined the server.")
-        await member.roles.add(await guild.roles.cache.find(role => role.name === "Bots"), "Auto-assigned with Foo Bot upon join");
-    } else {
-        console.log("A human has joined the server.")
-        await member.roles.add(await guild.roles.cache.find(role => role.name === "Humans"), "Auto-assigned with Foo Bot upon join");
+    try {
+        if (member.user.bot) {
+            console.log("A bot has joined the server.");
+            await member.roles.add(await guild.roles.cache.find(role => role.name === "Bots"), "Auto-assigned with Foo Bot upon join");
+        } else {
+            console.log("A human has joined the server.");
+            await member.roles.add(await guild.roles.cache.find(role => role.name === "Humans"), "Auto-assigned with Foo Bot upon join");
+        }
+    } catch (error) {
+        console.error(error);
     }
 });
 
 async function toggleRole(interaction, roleName) {
-    const role = await guild.roles.cache.find(role => role.name === roleName);
-    if (await hasRole(interaction.member, role)) {
-        interaction.member.roles.remove(role, "Self-requested with Foo Bot").then(async () => {
+    try {
+        const role = await guild.roles.cache.find(role => role.name === roleName);
+        if (await hasRole(interaction.member, role)) {
+            await interaction.member.roles.remove(role, "Self-requested with Foo Bot");
             await interaction.reply(`You have removed the ${roleName} role.`);
-        }).catch(async () => {
-            await interaction.reply('An unexpected error has occurred!');
-        });
-    } else {
-        interaction.member.roles.add(role, "Self-requested with Foo Bot").then(async () => {
+        } else {
+            await interaction.member.roles.add(role, "Self-requested with Foo Bot");
             await interaction.reply(`You have been given the ${roleName} role!`);
-        }).catch(async () => {
-            await interaction.reply('An unexpected error has occurred!');
-        });
+        }
+    } catch (error) {
+        console.error(error);
+        await interaction.reply('An unexpected error has occurred!');
     }
 }
 
