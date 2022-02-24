@@ -1,5 +1,7 @@
 const {SlashCommandBuilder} = require('@discordjs/builders');
 
+const roles = require('../config.json')['guild']['roles'];
+
 /**
  * Add a role with the given name to the GuildMember that initiated the given interaction if they do not have that role
  * already. Otherwise, remove that role.
@@ -36,14 +38,13 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('role')
         .setDescription('Adds or removes the specified role')
-        .addStringOption(option =>
-            option.setName('role')
-                .setDescription('The role')
-                .setRequired(true)
-                .addChoice('Developers', 'Developers')
-                .addChoice('Animal Crossing', 'Animal Crossing')
-                .addChoice('Mario Kart', 'Mario Kart')
-                .addChoice('Super Smash Bros.', 'Super Smash Bros.')
+        .addStringOption(option => {
+                option.setName('role');
+                option.setDescription('The role');
+                option.setRequired(true);
+                roles.forEach(role => option.addChoice(role, role));
+                return option;
+            }
         ),
     async execute(interaction) {
         const role = interaction.options.getString('role');
