@@ -2,7 +2,7 @@ const {Client, Intents} = require('discord.js');
 const client = new Client({intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS]});
 
 const TOKEN = require('./config.json')['token'];
-const GUILD_ID = require('./config.json')['guildId'];
+const GUILD_ID = require('./config.json')['guild']['id'];
 var guild;
 
 client.once('ready', () => {
@@ -12,6 +12,9 @@ client.once('ready', () => {
     guild = client.guilds.cache.get(GUILD_ID);
 });
 
+/**
+ * Handle interactions (slash commands)
+ */
 client.on('interactionCreate', async interaction => {
     if (!interaction.isCommand()) {
         return;
@@ -25,6 +28,9 @@ client.on('interactionCreate', async interaction => {
     }
 });
 
+/**
+ * Upon a new user joining the server, assign them a role based upon whether they are a bot or human.
+ */
 client.on('guildMemberAdd', async member => {
     try {
         if (member.user.bot) {
@@ -39,6 +45,12 @@ client.on('guildMemberAdd', async member => {
     }
 });
 
+/**
+ * Add a role with the given name to the GuildMember that initiated the given interaction if they do not have that role
+ * already. Otherwise, remove that role.
+ * @param interaction The interaction
+ * @param roleName The name of the role to add or remove
+ */
 async function toggleRole(interaction, roleName) {
     try {
         const role = await guild.roles.cache.find(role => role.name === roleName);
@@ -55,6 +67,12 @@ async function toggleRole(interaction, roleName) {
     }
 }
 
+/**
+ * Determine if a GuildMember has a particular role.
+ * @param member The GuildMember to check the roles of
+ * @param role The Role to look for
+ * @returns {Promise<boolean>} True if member has this role, otherwise false.
+ */
 async function hasRole(member, role) {
     return await member.roles.resolve(role.id) !== null;
 }
