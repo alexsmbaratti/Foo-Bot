@@ -34,7 +34,16 @@ Note: At this time, the bot will not create roles for you. Specified roles shoul
 goes for both user-assignable roles and Turing roles.
 
 ### Running
-Simply run the index.js file using Node.js after creating the `config.json` file
+
+To create the slash commands for your server, run the deploy-commands.js file. This only needs to be run whenever the
+commands are changed.
+
+```bash
+node deploy-commands.js
+```
+
+Then, simply run the index.js file using Node.js. Run this command whenever you want the bot to be online.
+
 ```bash
 node index.js
 ```
