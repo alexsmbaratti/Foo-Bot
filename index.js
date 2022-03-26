@@ -1,6 +1,7 @@
 const fs = require('fs');
 const {Client, Collection, Intents} = require('discord.js');
 const client = new Client({intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS]});
+const schedule = require('node-schedule');
 
 const TOKEN = require('./config.json')['bot']['token'];
 
@@ -55,6 +56,13 @@ client.on('guildMemberAdd', async member => {
     } catch (error) {
         console.error(error);
     }
+});
+
+/**
+ * Post an embed and thread for Wordle responses every day at midnight local time
+ */
+schedule.scheduleJob('0 0 * * *', function () {
+    console.log('This should run once a day at midnight local time.');
 });
 
 client.login(TOKEN).then(() => console.log('Login successful!'));

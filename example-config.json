@@ -9,6 +9,9 @@
       "User Assignable Role 1",
       "User Assignable Role 2",
       "..."
-    ]
+    ],
+    "channels": {
+      "wordle": "CHANNEL-NAME"
+    }
   }
 }
