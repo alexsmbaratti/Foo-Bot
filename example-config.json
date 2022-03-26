@@ -1,7 +1,6 @@
 {
   "bot": {
-    "token": "BOT-TOKEN-HERE",
-    "id": "BOT-ID"
+    "token": "BOT-TOKEN-HERE"
   },
   "guild": {
     "id": "ID-OF-YOUR-SERVER",
