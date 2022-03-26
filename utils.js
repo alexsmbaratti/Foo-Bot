@@ -4,6 +4,9 @@ module.exports = {
      * @param configuration A configuration object
      */
     validateConfigurationSchema: function (configuration = {}) {
-        return configuration['bot'] && configuration['bot']['token'];
+        /**
+         * TODO: Validate that roles is an array
+         */
+        return configuration['bot'] && configuration['bot']['token'] && configuration['guild'];
     }
 };

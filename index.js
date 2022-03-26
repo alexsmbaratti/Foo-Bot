@@ -1,8 +1,17 @@
 const fs = require('fs');
 const {Client, Collection, Intents} = require('discord.js');
 const client = new Client({intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS]});
+const utils = require('./utils');
+const config = require('./config.json');
 
-const TOKEN = require('./config.json')['bot']['token'];
+if (utils.validateConfigurationSchema(config)) {
+    console.log('Configuration schema validated.');
+} else {
+    console.log('Invalid configuration schema.');
+    process.exit(9);
+}
+
+const TOKEN = config['bot']['token'];
 
 client.once('ready', () => {
     console.log(`${client.user.username} is ready!\n`);
