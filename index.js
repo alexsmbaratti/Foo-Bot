@@ -61,8 +61,12 @@ client.on('guildMemberAdd', async member => {
 /**
  * Post an embed and thread for Wordle responses every day at midnight local time
  */
-schedule.scheduleJob('0 0 * * *', function () {
-    console.log('This should run once a day at midnight local time.');
-});
+if (require('./config.json')['wordle']) {
+    console.log('Wordle configuration enabled.');
+    schedule.scheduleJob('0 0 * * *', function () {
+        console.log('This should run once a day at midnight local time.');
+        const channel = client.guilds.cache.get(require('./config.json')['guild']['id']).channels.cache.find(channel => channel.name == require('./config.json')['wordle']['channel']);
+    });
+}
 
 client.login(TOKEN).then(() => console.log('Login successful!'));
