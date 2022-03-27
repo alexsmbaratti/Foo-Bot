@@ -1,4 +1,5 @@
 # Foo Bot
+[![Jest Testing](https://github.com/alexsmbaratti/Foo-Bot/actions/workflows/jest.yml/badge.svg?branch=main)](https://github.com/alexsmbaratti/Foo-Bot/actions/workflows/jest.yml)
 
 A simple Discord bot to manage your server
 
