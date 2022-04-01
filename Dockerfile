@@ -1,9 +1,10 @@
 FROM node:16
 
+LABEL description="A simple Discord bot to manage your server"
+
 WORKDIR /usr/src/foo-bot
 
 COPY . .
-COPY example-config.json config.json
 
 RUN npm install
 
