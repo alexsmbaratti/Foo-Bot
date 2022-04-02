@@ -1,6 +1,6 @@
 # This workflow has been adapted from https://docs.github.com/en/actions/publishing-packages/publishing-docker-images
 
-name: Create and publish a Docker image
+name: Publish Docker image to GitHub Packages
 
 on:
   push:
