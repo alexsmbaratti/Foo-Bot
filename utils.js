@@ -1,3 +1,6 @@
+const fs = require('fs');
+const https = require('https');
+
 module.exports = {
     /**
      * Determines if the given object conforms to the minimum valid schema required to start the bot.
@@ -16,5 +19,56 @@ module.exports = {
      */
     isImageAttachment: function (attachment) {
         return attachment['contentType'].split('/')[0] === 'image';
+    },
+    saveImage: function (attachment) {
+        return new Promise(function (resolve, reject) {
+            let filePath = 'temp/' + attachment['name'];
+            let file = fs.createWriteStream(filePath);
+            https.get(attachment.proxyURL, response => {
+                let stream = response.pipe(file);
+
+                stream.on('finish', function () {
+                    resolve(filePath);
+                });
+
+                stream.on('error', function () {
+                    reject();
+                });
+            });
+        });
+    },
+    deleteFile: function (filePath) {
+        return new Promise(function (resolve, reject) {
+            try {
+                fs.unlinkSync(filePath);
+                resolve();
+            } catch (error) {
+                reject(error);
+            }
+        });
+    },
+    generatePhotographyEmbed: function (title, thumbnailURL, camera, width, height) {
+        return {
+            embeds: [
+                {
+                    thumbnail: {
+                        url: thumbnailURL
+                    },
+                    title: title,
+                    fields: [
+                        {
+                            name: 'Camera',
+                            value: camera,
+                            inline: true
+                        },
+                        {
+                            name: 'Dimensions',
+                            value: width + 'x' + height,
+                            inline: true
+                        }
+                    ]
+                }
+            ]
+        };
     }
 };

@@ -20,3 +20,12 @@ test('PNG attachments are recognized as images', () => {
 
     expect(utils.isImageAttachment(pngAttachment)).toBeTruthy();
 });
+
+test('JPEG attachments are recognized as images', () => {
+    let pngAttachment = {
+        name: 'Foo_Bot.jpeg',
+        contentType: 'image/jpeg'
+    };
+
+    expect(utils.isImageAttachment(pngAttachment)).toBeTruthy();
+});
