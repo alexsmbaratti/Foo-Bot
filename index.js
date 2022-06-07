@@ -1,6 +1,6 @@
 const fs = require('fs');
 const {Client, Collection, Intents} = require('discord.js');
-const client = new Client({intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS]});
+const client = new Client({intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_MESSAGES]});
 const utils = require('./utils');
 const config = require('./config.json');
 
@@ -12,6 +12,7 @@ if (utils.validateConfigurationSchema(config)) {
 }
 
 const TOKEN = config['bot']['token'];
+const PHOTOGRAPHY_CHANNEL = config['guild']['photography'];
 
 client.once('ready', () => {
     console.log(`${client.user.username} is ready!\n`);
@@ -60,6 +61,23 @@ client.on('guildMemberAdd', async member => {
         } else {
             console.log('A human has joined the server.');
             await member.roles.add(await member.guild.roles.cache.find(role => role.name === "Humans"), 'Auto-assigned with Foo Bot upon join');
+        }
+    } catch (error) {
+        console.error(error);
+    }
+});
+
+/**
+ * Upon a new message created, triage and respond to it if applicable.
+ */
+client.on('messageCreate', message => {
+    try {
+        if (PHOTOGRAPHY_CHANNEL !== undefined && message.channel.name === PHOTOGRAPHY_CHANNEL) { // Photography is enabled and a message was sent to the channel
+            console.log("Message received in photography channel.");
+            /*
+            Check if there is an image file.
+            If so, extract the metadata, start a thread, and send the metadata in that thread
+             */
         }
     } catch (error) {
         console.error(error);
