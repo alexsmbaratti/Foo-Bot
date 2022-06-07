@@ -22,7 +22,7 @@ module.exports = {
     },
     saveImage: function (attachment) {
         return new Promise(function (resolve, reject) {
-            let filePath = 'temp/' + attachment['name'];
+            let filePath = './temp/' + attachment['name'];
             let file = fs.createWriteStream(filePath);
             https.get(attachment.proxyURL, response => {
                 let stream = response.pipe(file);
@@ -38,14 +38,15 @@ module.exports = {
         });
     },
     deleteFile: function (filePath) {
-        return new Promise(function (resolve, reject) {
-            try {
-                fs.unlinkSync(filePath);
-                resolve();
-            } catch (error) {
-                reject(error);
-            }
-        });
+        try {
+            fs.unlinkSync(filePath);
+        } catch (error) {
+            console.error(error);
+        }
+    },
+    getCameraFromImage: function (filePath) {
+        // TODO: Implement
+        return "Some Camera";
     },
     generatePhotographyEmbed: function (title, thumbnailURL, camera, width, height) {
         return {
