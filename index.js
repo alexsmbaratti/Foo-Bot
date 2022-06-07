@@ -73,11 +73,16 @@ client.on('guildMemberAdd', async member => {
 client.on('messageCreate', message => {
     try {
         if (PHOTOGRAPHY_CHANNEL !== undefined && message.channel.name === PHOTOGRAPHY_CHANNEL) { // Photography is enabled and a message was sent to the channel
-            console.log("Message received in photography channel.");
-            /*
-            Check if there is an image file.
-            If so, extract the metadata, start a thread, and send the metadata in that thread
-             */
+            if (message.attachments.size > 0) {
+                let firstAttachment = message.attachments.first(); // TODO: Properly iterate for all attachments
+                if (utils.isImageAttachment(firstAttachment)) {
+                    console.log("Message with image attachment received in photography channel.");
+                    console.log(message.attachments);
+                    /*
+                    Extract the metadata, start a thread, and send the metadata in that thread
+                     */
+                }
+            }
         }
     } catch (error) {
         console.error(error);
