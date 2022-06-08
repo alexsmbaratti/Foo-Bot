@@ -37,6 +37,10 @@ module.exports = {
             });
         });
     },
+    /**
+     * Deletes the specified file in the file path
+     * @param filePath A relative file path
+     */
     deleteFile: function (filePath) {
         try {
             fs.unlinkSync(filePath);
@@ -46,7 +50,7 @@ module.exports = {
     },
     getCameraFromImage: function (filePath) {
         // TODO: Implement
-        return "Some Camera";
+        return "Not Implemented";
     },
     generatePhotographyEmbed: function (title, thumbnailURL, camera, width, height) {
         return {
